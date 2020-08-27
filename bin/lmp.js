@@ -18,6 +18,8 @@ program
   .option('--coverVersion <version>', 'pdf cover version')
   .option('--dirBookmark', 'use directory name as bookmark')
   .option('--fileBookmark', 'use file name as bookmark')
+  .option('--fontName <name>', 'default font name')
+  .option('--fontFile <file>', 'default font file path')
   .on('command:*', (operands) => {
     console.error(`error: unknown command '${operands[0]}'`);
     process.exit(1);
@@ -30,6 +32,7 @@ const {
   sourceDir, targetFile,
   coverTitle, coverAuthor, coverVersion,
   dirBookmark, fileBookmark,
+  fontName, fontFile,
 } = program;
 
 if (!configFile && !(sourceDir && targetFile)) {
@@ -58,6 +61,12 @@ deepAssign(customCfg, {
   bookmark: {
     dirBookmark: dirBookmark,
     fileBookmark: fileBookmark,
+  },
+  font: {
+    defaultFontName: fontName,
+    registerFont: fontName && {
+      [fontName]: fontFile && absolutePath(fontFile),
+    },
   },
 });
 

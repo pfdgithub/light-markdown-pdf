@@ -7,7 +7,7 @@
     "lmp": "bin/lmp.js"
   },
   "scripts": {
-    "build": "node bin/lmp.js --configFile ./src/config.js --coverTitle $npm_package_name --coverAuthor $npm_package_author_name --coverVersion $npm_package_version"
+    "build": "node bin/lmp.js --sourceDir . --targetFile $npm_package_name@$npm_package_version.pdf --fontName PingFang --fontFile ./src/asset/PingFang-SC-Regular.ttf --coverTitle $npm_package_name --coverAuthor $npm_package_author_name --coverVersion $npm_package_version"
   },
   "license": "MIT",
   "author": "pfdgithub",

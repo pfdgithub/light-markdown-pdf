@@ -2,13 +2,15 @@
 
 Lightweight conversion scheme from markdown to pdf.  
 
+## Warn
+
+Because the Chinese font file is too large, npm cannot upload it.  
+Please download the font file from [github](https://github.com/pfdgithub/light-markdown-pdf/blob/master/src/asset/PingFang-SC-Regular.ttf) and use a [custom configuration](#Custom).  
+
 ## Intro
 
 No [Puppeteer](https://github.com/puppeteer/puppeteer) or [PhantomJS](https://github.com/ariya/phantomjs/) dependency.  
-
 Use [CommonMark](https://github.com/commonmark/commonmark.js) to convert markdown files to abstract syntax tree (AST), and then use [pdfkit](https://github.com/foliojs/pdfkit) to convert to pdf files.  
-
-*Allows to [replace font files](#Custom), can directly render Chinese fonts.*  
 
 ## Unsupported markdown features
 
@@ -67,54 +69,44 @@ Options:
   --coverTitle <title>      pdf cover title
   --coverAuthor <author>    pdf cover author
   --coverVersion <version>  pdf cover version
-  --dirBookmark             use directory name as bookmark (default: true)
-  --fileBookmark            use file name as bookmark (default: true)
+  --dirBookmark             use directory name as bookmark
+  --fileBookmark            use file name as bookmark
+  --fontName <name>         default font name
+  --fontFile <file>         default font file path
   -h, --help                display help for command
 ```
 
 ### Custom
 
+```shell
+lmp --sourceDir . --targetFile $npm_package_name@$npm_package_version.pdf --fontName PingFang --fontFile ./src/asset/PingFang-SC-Regular.ttf --coverTitle $npm_package_name --coverAuthor $npm_package_author_name --coverVersion $npm_package_version
+```
+
+or
+
+```shell
+lmp --configFile ./src/config.js
+```
+
 ```javascript
+// ./src/config.js
+
 const path = require('path');
+const pkg = require('../package.json');
 
 module.exports = {
   sourceDir: process.cwd(),
   targetFile: path.join(process.cwd(), `${pkg.name}@${pkg.version}.pdf`),
-  log: {
-    debug: false,
-  },
-  page: {
-    layout: 'portrait',
-    size: 'A4',
-    margin: 1, // cm
-  },
   font: {
     defaultFontName: 'PingFang',
     registerFont: {
-      PingFang: path.join(__dirname, 'asset/PingFang-SC-Regular.ttf'),
+      PingFang: path.join(process.cwd(), 'src/asset/PingFang-SC-Regular.ttf'),
     },
   },
   cover: {
-    title: '',
-    author: '',
-    version: '',
-  },
-  bookmark: {
-    dirBookmark: true,
-    fileBookmark: true,
-  },
-  directory: {
-    fileSuffix: '.md',
-    // String or RegExp (no suffix)
-    fileIgnore: [],
-    filePriority: ['index', 'readme', 'INDEX', 'README'],
-    dirIgnore: ['node_modules'],
-    dirPriority: [],
-  },
-  transform: {
-    // custom asset path
-    link: (target, file) => (target),
-    image: (source, file) => (source),
+    title: pkg.name,
+    author: pkg.author,
+    version: pkg.version,
   },
 }
 ```

@@ -13,10 +13,8 @@ const page = {
 };
 
 const font = {
-  defaultFontName: 'PingFang',
-  registerFont: {
-    PingFang: path.join(__dirname, 'asset/PingFang-SC-Regular.ttf'),
-  },
+  defaultFontName: '',
+  registerFont: {},
 };
 
 const cover = {
@@ -46,8 +44,8 @@ const transform = {
 };
 
 module.exports = {
-  sourceDir: process.cwd(),
-  targetFile: path.join(process.cwd(), `${pkg.name}@${pkg.version}.pdf`),
+  sourceDir: '',
+  targetFile: '',
   log,
   page,
   font,
