@@ -69,8 +69,8 @@ Options:
   --coverTitle <title>      pdf cover title
   --coverAuthor <author>    pdf cover author
   --coverVersion <version>  pdf cover version
-  --dirBookmark             use directory name as bookmark
-  --fileBookmark            use file name as bookmark
+  --no-dirBookmark             don't use directory name as bookmark
+  --no-fileBookmark            don't use file name as bookmark
   --fontName <name>         default font name
   --fontFile <file>         default font file path
   -h, --help                display help for command
@@ -79,7 +79,7 @@ Options:
 ### Custom
 
 ```shell
-lmp --sourceDir . --targetFile $npm_package_name@$npm_package_version.pdf --fontName PingFang --fontFile ./src/asset/PingFang-SC-Regular.ttf --coverTitle $npm_package_name --coverAuthor $npm_package_author_name --coverVersion $npm_package_version
+lmp --sourceDir . --targetFile $npm_package_name.pdf --fontName PingFang --fontFile ./src/asset/PingFang-SC-Regular.ttf --coverTitle $npm_package_name --coverAuthor $npm_package_author_name --coverVersion $npm_package_version
 ```
 
 or
