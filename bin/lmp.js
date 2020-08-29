@@ -16,8 +16,8 @@ program
   .option('--coverTitle <title>', 'pdf cover title')
   .option('--coverAuthor <author>', 'pdf cover author')
   .option('--coverVersion <version>', 'pdf cover version')
-  .option('--dirBookmark', 'use directory name as bookmark')
-  .option('--fileBookmark', 'use file name as bookmark')
+  .option('--no-dirBookmark', 'don\'t use directory name as bookmark')
+  .option('--no-fileBookmark', 'don\'t use file name as bookmark')
   .option('--fontName <name>', 'default font name')
   .option('--fontFile <file>', 'default font file path')
   .on('command:*', (operands) => {

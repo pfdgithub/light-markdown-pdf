@@ -1,6 +1,6 @@
 {
   "name": "light-markdown-pdf",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Lightweight conversion scheme from markdown to pdf",
   "main": "src/index.js",
   "bin": {
