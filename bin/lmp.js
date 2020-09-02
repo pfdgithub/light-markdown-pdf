@@ -3,7 +3,7 @@
 const { program } = require('commander');
 
 const pkg = require('../package.json');
-const { absolutePath, deepAssign } = require('../src/utils');
+const { isType, absolutePath, deepAssign } = require('../src/utils');
 const { run } = require('../src/index');
 
 program
@@ -16,10 +16,10 @@ program
   .option('--coverTitle <title>', 'pdf cover title')
   .option('--coverAuthor <author>', 'pdf cover author')
   .option('--coverVersion <version>', 'pdf cover version')
-  .option('--no-dirBookmark', 'don\'t use directory name as bookmark')
-  .option('--no-fileBookmark', 'don\'t use file name as bookmark')
   .option('--fontName <name>', 'default font name')
   .option('--fontFile <file>', 'default font file path')
+  .option('--ignoreDirBookmark', 'don\'t use directory name as bookmark')
+  .option('--ignoreFileBookmark', 'don\'t use file name as bookmark')
   .on('command:*', (operands) => {
     console.error(`error: unknown command '${operands[0]}'`);
     process.exit(1);
@@ -31,8 +31,8 @@ const {
   configFile, verbose,
   sourceDir, targetFile,
   coverTitle, coverAuthor, coverVersion,
-  dirBookmark, fileBookmark,
   fontName, fontFile,
+  ignoreDirBookmark, ignoreFileBookmark,
 } = program;
 
 if (!configFile && !(sourceDir && targetFile)) {
@@ -58,15 +58,15 @@ deepAssign(customCfg, {
     author: coverAuthor,
     version: coverVersion,
   },
-  bookmark: {
-    dirBookmark: dirBookmark,
-    fileBookmark: fileBookmark,
-  },
   font: {
     defaultFontName: fontName,
     registerFont: fontName && {
       [fontName]: fontFile && absolutePath(fontFile),
     },
+  },
+  bookmark: {
+    dirBookmark: isType(ignoreDirBookmark, 'Undefined') ? undefined : !ignoreDirBookmark,
+    fileBookmark: isType(ignoreFileBookmark, 'Undefined') ? undefined : !ignoreFileBookmark,
   },
 });
 

@@ -12,7 +12,7 @@ Please download the font file from [github](https://github.com/pfdgithub/light-m
 No [Puppeteer](https://github.com/puppeteer/puppeteer) or [PhantomJS](https://github.com/ariya/phantomjs/) dependency.  
 Use [CommonMark](https://github.com/commonmark/commonmark.js) to convert markdown files to abstract syntax tree (AST), and then use [pdfkit](https://github.com/foliojs/pdfkit) to convert to pdf files.  
 
-## Unsupported markdown features
+## Unsupported
 
 Features outside the [specification](https://spec.commonmark.org/) are not supported.  
 
@@ -20,7 +20,7 @@ e.g.
 - [table](https://talk.commonmark.org/t/tables-in-pure-markdown/81)  
 - [strike](https://talk.commonmark.org/t/strikeout-threw-out-strikethrough-strikes-out-throughout/820)  
 
-## Supported markdown features
+## Supported
 
 Features inside the [specification](https://spec.commonmark.org/) are supported.  
 
@@ -69,10 +69,10 @@ Options:
   --coverTitle <title>      pdf cover title
   --coverAuthor <author>    pdf cover author
   --coverVersion <version>  pdf cover version
-  --no-dirBookmark             don't use directory name as bookmark
-  --no-fileBookmark            don't use file name as bookmark
   --fontName <name>         default font name
   --fontFile <file>         default font file path
+  --ignoreDirBookmark       don't use directory name as bookmark
+  --ignoreFileBookmark      don't use file name as bookmark
   -h, --help                display help for command
 ```
 

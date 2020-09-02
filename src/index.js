@@ -35,6 +35,8 @@ exports.run = async (cfg) => {
   logger.info(`Render pagination`);
   await renderPagination(docInstance);
 
-  logger.info(`Finish render`);
+  logger.info(`Persistent render`);
   await finishRender(docInstance);
+
+  logger.info(`Finished`);
 };
