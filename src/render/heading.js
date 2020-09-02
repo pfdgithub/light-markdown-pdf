@@ -2,7 +2,8 @@ const logger = require('../logger');
 const utils = require('../utils');
 const style = require('../style');
 
-const { createAnchor } = utils;
+const { cm2point, createAnchor } = utils;
+const padding = cm2point(0.2);
 
 module.exports = function render (doc, entering, node, cfg) {
   const { type, isContainer, level } = node;
@@ -29,6 +30,9 @@ module.exports = function render (doc, entering, node, cfg) {
 
     // snapshot innerText
     state.headingInnerText = state.innerText;
+
+    // padding top
+    doc.y = doc.y + padding;
   } else {
     const {
       innerText: actual,
@@ -62,6 +66,9 @@ module.exports = function render (doc, entering, node, cfg) {
 
     // new line
     doc.text('\n');
+
+    // padding bottom
+    doc.y = doc.y + padding;
 
     style.heading(doc, entering, level);
   }
