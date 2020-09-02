@@ -120,8 +120,8 @@ module.exports = async function render (doc, entering, node, cfg) {
     }
 
     // position image
-    const x = doc.x;
-    const y = doc.y;
+    const startX = doc.x;
+    const startY = doc.y;
     const w = imageWidth * scale;
     const h = imageHeight * scale;
     const options = {
@@ -131,13 +131,15 @@ module.exports = async function render (doc, entering, node, cfg) {
     };
 
     // remain height
-    const useableHeight = contentHeight - y;
+    const useableHeight = contentHeight - startY;
     // image + title
     const graphicHeight = h + doc.currentLineHeight();
 
     if (useableHeight < graphicHeight) {
       // new page
       doc.addPage();
+      // keep indent
+      doc.x = startX;
     }
 
     // #endregion
