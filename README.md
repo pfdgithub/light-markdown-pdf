@@ -96,7 +96,7 @@ const pkg = require('../package.json');
 
 module.exports = {
   sourceDir: process.cwd(),
-  targetFile: path.join(process.cwd(), `${pkg.name}@${pkg.version}.pdf`),
+  targetFile: path.join(process.cwd(), `${pkg.name}.pdf`),
   font: {
     defaultFontName: 'PingFang',
     registerFont: {
