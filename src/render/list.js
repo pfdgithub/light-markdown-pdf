@@ -3,7 +3,7 @@ const style = require('../style');
 const utils = require('../utils');
 
 const { cm2point } = utils;
-const indentUnit = cm2point(0.5);
+const indentUnit = cm2point(0.7);
 
 module.exports = function render (doc, entering, node, cfg) {
   const { type, isContainer, listType, listTight, listStart, listDelimiter } = node;
@@ -19,12 +19,9 @@ module.exports = function render (doc, entering, node, cfg) {
     ? state.listIndentLevel : -1;
 
   // init list cycle index
-  state.listItemIndexSets = state.listItemIndexSets || [];
+  state.listItemSets = state.listItemSets || [];
 
   if (entering) {
-    // add a blank line if list is tight
-    state.blankLine = !listTight;
-
     // list nesting level
     state.listIndentLevel = state.listIndentLevel + 1;
 
@@ -37,7 +34,10 @@ module.exports = function render (doc, entering, node, cfg) {
       // ordered list
       startIndex = listStart;
     }
-    state.listItemIndexSets[state.listIndentLevel] = startIndex;
+    state.listItemSets[state.listIndentLevel] = {
+      index: startIndex,
+      tight: listTight,
+    };
 
     // add indent
     doc.x = doc.x + indentUnit;
@@ -45,19 +45,12 @@ module.exports = function render (doc, entering, node, cfg) {
     // subtract indent
     doc.x = doc.x - indentUnit;
 
-    // add blank line (block margin)
-    if (listTight) {
-      doc.text('\n');
-    }
-
-    delete state.blankLine;
-
     // list nesting level
     if (state.listIndentLevel > 0) {
       state.listIndentLevel = state.listIndentLevel - 1;
     } else {
       delete state.listIndentLevel;
-      delete state.listItemIndexSets;
+      delete state.listItemSets;
     }
   }
 }

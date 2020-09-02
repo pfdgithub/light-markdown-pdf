@@ -12,7 +12,10 @@ module.exports = function render (doc, entering, node, cfg) {
   style.item(doc, entering);
 
   // current list cycle index
-  const currentIndex = state.listItemIndexSets[state.listIndentLevel];
+  const {
+    index: itemIndex,
+    tight: itemTight,
+  } = state.listItemSets[state.listIndentLevel];
 
   if (entering) {
     const startX = doc.x;
@@ -22,6 +25,7 @@ module.exports = function render (doc, entering, node, cfg) {
     const { left, right, top, bottom } = doc.page.margins;
     const contentWidth = pageWidth - left - right;
     const contentHeight = pageHeight - top - bottom;
+  
     const lineHeight = doc.currentLineHeight();
 
     // remain height
@@ -38,11 +42,11 @@ module.exports = function render (doc, entering, node, cfg) {
     const indexWidth = doc.widthOfString('abcd'); // about 4 characters width
     const spaceWidth = doc.widthOfString('a'); // about 1 character width
 
-    if (typeof currentIndex === 'number') { // ordered list
+    if (typeof itemIndex === 'number') { // ordered list
       const indexX = x - indexWidth;
 
       // list index
-      doc.text(`${currentIndex}.`, indexX, y, {
+      doc.text(`${itemIndex}.`, indexX, y, {
         align: 'right',
         height: lineHeight,
         width: indexWidth - spaceWidth,
@@ -59,10 +63,15 @@ module.exports = function render (doc, entering, node, cfg) {
     // reset location
     doc.x = x;
     doc.y = y;
+
+    // add a blank line if list is tight
+    state.blankLine = !itemTight;
   } else {
+    delete state.blankLine;
+
     // add list cycle index
-    if (typeof currentIndex === 'number') {
-      state.listItemIndexSets[state.listIndentLevel] = currentIndex + 1;
+    if (typeof itemIndex === 'number') {
+      state.listItemSets[state.listIndentLevel].index = itemIndex + 1;
     }
   }
 }
