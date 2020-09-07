@@ -17,6 +17,10 @@ const font = {
   registerFont: {},
 };
 
+const styling = {
+  softbreak: '\n',
+};
+
 const cover = {
   title: '',
   author: '',
@@ -49,6 +53,7 @@ module.exports = {
   log,
   page,
   font,
+  styling,
   cover,
   bookmark,
   directory,

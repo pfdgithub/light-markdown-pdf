@@ -1,5 +1,6 @@
 const logger = require('../logger');
 const style = require('../style');
+const config = require('../config');
 
 module.exports = function render (doc, entering, node, cfg) {
   const { type, isContainer } = node;
@@ -8,6 +9,10 @@ module.exports = function render (doc, entering, node, cfg) {
 
   style.softbreak(doc, entering);
 
-  // new line (compatible with irregular syntax)
-  doc.text('\n');
+  const { softbreak } = config.styling;
+
+  // default new line (compatible with irregular syntax)
+  if (softbreak) {
+    doc.text(softbreak);
+  }
 }
