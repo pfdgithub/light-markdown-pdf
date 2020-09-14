@@ -34,6 +34,7 @@ module.exports = async function render (doc, entering, node, cfg) {
       newSource = sourceTransform(destination, fullName);
       logger.debug(`Transform image source: ${destination} -> ${newSource}`);
     }
+    newSource = decodeURI(newSource); // decode coded link
 
     // invalid source
     if (isNormal) {
@@ -102,17 +103,20 @@ module.exports = async function render (doc, entering, node, cfg) {
 
     // #region zoom and position image
 
+    const startX = doc.x;
+    const startY = doc.y;
     const pageWidth = doc.page.width;
     const pageHeight = doc.page.height;
     const { left, right, top, bottom } = doc.page.margins;
     const contentWidth = pageWidth - left - right;
     const contentHeight = pageHeight - top - bottom;
+    const useableWidth = pageWidth - startX - right;
 
     // zoom image
     let scale = 1;
     const landscape = (imageWidth / imageHeight) >= 1;
     if (landscape) {
-      const maxWidth = contentWidth >= imageWidth ? imageWidth : contentWidth;
+      const maxWidth = useableWidth >= imageWidth ? imageWidth : useableWidth;
       scale = maxWidth / imageWidth;
     } else {
       const maxHeight = contentHeight >= imageHeight ? imageHeight : contentHeight;
@@ -120,14 +124,12 @@ module.exports = async function render (doc, entering, node, cfg) {
     }
 
     // position image
-    const startX = doc.x;
-    const startY = doc.y;
     const w = imageWidth * scale;
     const h = imageHeight * scale;
     const options = {
       width: w,
       height: h,
-      x: (pageWidth - w) / 2,
+      x: ((useableWidth - w) / 2) + startX,
     };
 
     // remain height
