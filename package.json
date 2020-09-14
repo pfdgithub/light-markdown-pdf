@@ -7,7 +7,7 @@
     "lmp": "bin/lmp.js"
   },
   "scripts": {
-    "build:pdf": "node bin/lmp.js --sourceDir . --targetFile $npm_package_name.pdf --fontName PingFang --fontFile ./src/asset/PingFang-SC-Regular.ttf --coverTitle $npm_package_name --coverAuthor $npm_package_author_name --coverVersion $npm_package_version"
+    "build:pdf": "node bin/lmp.js --sourceDir . --targetFile $npm_package_name.pdf --fontName PingFang --fontFile ./src/asset/PingFang-SC-Regular.ttf --coverTitle $npm_package_name --coverAuthor $npm_package_author_name --coverVersion $npm_package_version --ignoreFileBookmark"
   },
   "license": "MIT",
   "author": "pfdgithub",

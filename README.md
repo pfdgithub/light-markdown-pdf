@@ -44,6 +44,10 @@ e.g.
 - html_inline (like code)
 - html_block (like code_block)
 
+## Issues
+
+1. Sometimes the anchor will fail for unknown reasons.
+
 ## Usage
 
 ### Install
@@ -79,7 +83,7 @@ Options:
 ### Custom
 
 ```shell
-lmp --sourceDir . --targetFile $npm_package_name.pdf --fontName PingFang --fontFile ./src/asset/PingFang-SC-Regular.ttf --coverTitle $npm_package_name --coverAuthor $npm_package_author_name --coverVersion $npm_package_version
+lmp --sourceDir . --targetFile $npm_package_name.pdf --fontName PingFang --fontFile ./src/asset/PingFang-SC-Regular.ttf --coverTitle $npm_package_name --coverAuthor $npm_package_author_name --coverVersion $npm_package_version --ignoreFileBookmark
 ```
 
 or
