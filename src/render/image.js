@@ -103,46 +103,49 @@ module.exports = async function render (doc, entering, node, cfg) {
 
     // #region zoom and position image
 
-    const startX = doc.x;
-    const startY = doc.y;
     const pageWidth = doc.page.width;
     const pageHeight = doc.page.height;
     const { left, right, top, bottom } = doc.page.margins;
-    const contentWidth = pageWidth - left - right;
-    const contentHeight = pageHeight - top - bottom;
-    const useableWidth = pageWidth - startX - right;
+
+    // useable space
+    let useableWidth = pageWidth - doc.x - right;
+    let useableHeight = pageHeight - doc.y - bottom;
+
+    // if (useableWidth < imageWidth) {
+    //   // new line
+    //   doc.text('\n');
+
+    //   useableWidth = pageWidth - doc.x - right;
+    //   useableHeight = pageHeight - doc.y - bottom;
+    // }
 
     // zoom image
-    let scale = 1;
-    const landscape = (imageWidth / imageHeight) >= 1;
-    if (landscape) {
-      const maxWidth = useableWidth >= imageWidth ? imageWidth : useableWidth;
-      scale = maxWidth / imageWidth;
-    } else {
-      const maxHeight = contentHeight >= imageHeight ? imageHeight : contentHeight;
-      scale = maxHeight / imageHeight;
-    }
+    let scaleWidth = useableWidth < imageWidth ? useableWidth / imageWidth : 1;
+    let scaleHeight = useableHeight < imageHeight ? useableHeight / imageHeight : 1;
+    let scaleSize = scaleWidth < scaleHeight ? scaleWidth : scaleHeight;
+    let graphicWidth = scaleWidth * imageWidth;
+    let graphicHeight = scaleWidth * imageHeight;
 
-    // position image
-    const w = imageWidth * scale;
-    const h = imageHeight * scale;
-    const options = {
-      width: w,
-      height: h,
-      x: ((useableWidth - w) / 2) + startX,
-    };
-
-    // remain height
-    const useableHeight = contentHeight - startY;
-    // image + title
-    const graphicHeight = h + doc.currentLineHeight();
-
-    if (useableHeight < graphicHeight) {
+    if (useableHeight < graphicHeight + doc.currentLineHeight()) {
       // new page
       doc.addPage();
-      // keep indent
-      doc.x = startX;
+
+      useableWidth = pageWidth - doc.x - right;
+      useableHeight = pageHeight - doc.y - bottom;
     }
+
+    scaleWidth = useableWidth < imageWidth ? useableWidth / imageWidth : 1;
+    scaleHeight = useableHeight < imageHeight ? useableHeight / imageHeight : 1;
+    scaleSize = scaleWidth < scaleHeight ? scaleWidth : scaleHeight;
+    graphicWidth = scaleSize * imageWidth;
+    graphicHeight = scaleSize * imageHeight;
+  
+    // position image
+    const options = {
+      width: graphicWidth,
+      height: graphicHeight,
+      x: ((useableWidth - graphicWidth) / 2) + doc.x,
+    };
 
     // #endregion
 
